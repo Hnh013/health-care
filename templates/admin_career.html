@@ -1,0 +1,326 @@
+
+
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+
+<div class="jumbotron">
+  <a href="/emp_dashboard" class="btn btn-primary"><< Go to Dashboard</a><br><br>
+              
+	<hr>
+
+	  <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Post Job Opening
+      </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#GeneralPhysicianJobModal">General Physician</a>
+       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#JuniorDoctorJobModal">Junior Doctor</a>
+       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#SeniorDoctorJobModal">Senior Doctor</a>
+       <a class="dropdown-item" href="#" data-toggle="modal" data-target="#HealthExpertJobModal">Health Expert</a>
+        </div>
+    <button type="button" class="btn btn-success" style="float:middle;" data-toggle="modal" data-target="#alljobsModal">View all Jobs</button>
+    </div>
+    
+    <button type="button" class="btn btn-secondary btn-lg" style="float:right;">View all Aplications</button>
+
+
+
+
+<!----- General Physician Job Modal Begin ------>
+
+<div class="modal fade" id="GeneralPhysicianJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Job Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('add_job')}}" method="POST">
+                <div class="form-group">
+                 <label><h6>Role :</h6></label>
+                 <input type="text" id="role" name="role" value="General Physician" readonly><br>
+                </div>
+                <div class="form-group">
+                <label> Field:</label>
+                <select class="custom-select custom-select-sm" name="field" >
+                  <option selected>Open this select menu</option>
+                  <option value="BD00">BD00</option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label> Minimum Years Of Experience:</label>
+                <select class="custom-select custom-select-sm" name="min_exp">
+                  <option selected>Open this select menu</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="form-group">                
+              <label>Job Openings</label><br>
+                <input type="text" id="openings" name="openings">
+              </div>
+              <div class="form-group">                
+              <label>Job Details</label><br>
+                <input type="text" id="descrip" name="descrip" value="descrip">
+              </div>
+              <button class="btn btn-primary" type="submit">Post Job!</button>  
+              </form>          
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+
+        </div>
+    </div>
+</div>
+<!----- General Physician Job Modal End ------>    
+
+
+<!----- Junior Doctor Job Modal Begin ------>
+
+<div class="modal fade" id="JuniorDoctorJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Job Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('add_job')}}" method="POST">
+                <div class="form-group">
+                 <label><h6>Role :</h6></label>
+                 <input type="text" id="role" name="role"value="Junior Doctor"><br>
+                </div>
+                <div class="form-group">
+                <label> Field:</label>
+                <select class="custom-select custom-select-sm" name="field" >
+                  <option selected>Open this select menu</option>
+                  <option value="BD01">BD01</option>
+                  <option value="BD02">BD02</option>
+                  <option value="BD03">BD03</option>
+                  <option value="BD04">BD04</option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label> Minimum Years Of Experience:</label>
+                <select class="custom-select custom-select-sm" name="min_exp">
+                  <option selected>Open this select menu</option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="form-group">                
+              <label>Job Details</label><br>
+                <input type="text" id="openings" name="openings">
+              </div>
+              <div class="form-group">                
+              <label>Job Details</label><br>
+                <input type="text" id="descrip" name="descrip" value="descrip">
+              </div>
+              <button class="btn btn-primary" type="submit">Post Job!</button>  
+              </form>          
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+
+        </div>
+    </div>
+</div>
+<!----- Junior Doctor Job Modal End ------>    
+
+
+<!----- Senior Doctor Job Modal Begin ------>
+
+
+<div class="modal fade" id="SeniorDoctorJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Job Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('add_job')}}" method="POST">
+              <div class="form-group">   
+              <label><h6>Role :</h6></label>
+              <input type="text" id="role" name="role"value="Senior Doctor" readonly><br>
+              </div>
+             
+              <div class="form-group">
+              <label> Field:</label>
+                <select class="custom-select custom-select-sm" name="field">
+                  <option selected>Open this select menu</option>
+                  <option value="ND01">ND01</option>
+                  <option value="ND02">ND02</option>
+                  <option value="ND03">ND03</option>
+                  <option value="ND04">ND04</option>
+                  <option value="ND05">ND05</option>
+                  <option value="ND06">ND06</option>
+                  <option value="ND07">ND07</option>
+                  <option value="ND08">ND08</option>
+                  <option value="ND09">ND09</option>
+                  <option value="ND10">ND10</option>
+                  
+                </select>
+              </div>
+                <div class="form-group">
+              <label> Minimum Years Of Experience:</label>
+                <select class="custom-select custom-select-sm" name="min_exp">
+                  <option selected>Open this select menu</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+              <div class="form-group">
+              <label>Job Openings</label><br>
+              
+              <input type="text" id="openings" name="openings"><br>
+              
+              </div>
+              <div class="form-group">
+              <label>Job Details</label><br>
+                <input type="text" id="descrip" value="descrip" name="descrip">
+              </div>
+               <button class="btn btn-primary" type="submit">Post Job!</button>  
+             </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----- Senior Doctor Job Modal End------>
+
+
+<!----- Health Expert Job Modal Begin ------>
+
+
+<div class="modal fade" id="HealthExpertJobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Job Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{url_for('add_job')}}" method="POST">
+              <div class="form-group"> 
+              <label><h6>Role :</h6></label>
+              <input type="text" id="role" name="role"value="Health Expert"><br>
+              </div>
+              <div class="form-group"> 
+              
+              <label> Field:</label>
+                <select class="custom-select custom-select-sm" name="field">
+                  <option selected>Open this select menu</option>
+                  <option value="BD01">BD01</option>
+                  <option value="BD02">BD02</option>
+                  <option value="BD03">BD03</option>
+                  <option value="BD04">BD04</option>
+                  
+                  
+                </select>
+               </div>
+               <div class="form-group"> 
+              
+              <label> Minimum Years Of Experience:</label>
+                <select class="custom-select custom-select-sm" name="min_exp">
+                  <option selected>Open this select menu</option>
+                  <option value="15">15</option>
+                </select>
+              </div>
+              <div class="form-group"> 
+              
+              <label>Jpb Openings</label><br>
+              <input type="text" id="openings" name="openings"><br>
+              
+              </div>
+              <div class="form-group"> 
+              
+              
+              <label>Job Details</label><br>
+                <input type="text" id="descrip" name="descrip" value="descrip">
+               </div>
+                <button class="btn btn-primary" type="submit">Post Job!</button>  
+             </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!----- Health Expert Job Modal End ------>
+
+
+
+
+
+</div>
+
+<table class="table table-striped">
+      <tr>
+          <th>Job id</th>
+          <th>Role</th>
+          <th>Field</th>
+          <th>Min. Experience</th>
+          <th>Job Openings</th>
+          <th>Description</th>
+          <th></th>
+          <th></th>
+      </tr>
+
+      {% for row in jobs %}
+      <tr>
+      <td>{{row.id}}</td>
+      <td>{{row.role}}</td>
+      <td>{{row.field}}</td>
+      <td>{{row.min_exp}}</td>
+      <td>{{row.openings}}</td>
+      <td>{{row.descrip}}</td>
+      <td>
+      <a href="/jobappn/{{row.id}}" class="btn btn-success btn-xs">View Applications</a>
+      <a href="/delete/{{row.id}}" class="btn btn-danger btn-xs" onclick = "return confirm('Are You Sure to Delete?')">Delete</a>
+      </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+
+
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style>
+ 
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left3 {
+  width: 30%;
+}
+
+.center3 {
+    width: 40%;
+}
+
+.right3 {
+  width: 30%;
+}
+
+.left2 {
+  width: 40%;
+}
+
+.right2 {
+  width: 60%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+</style>
+
+
+<h1 align="center"><small> Welcome {{session.username}}</small></h1>
+
+
+
+<div class="jumbotron">
+    <div class="container">
+    <div class="row">
+        {% for user in user_info %}     
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                <p>
+                    <img src ="{{url_for('static', filename='images/'+user.pic)}}">
+                </p>
+                <p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#UploadNewPictureModal">Upload new Picture</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#RemovePictureModal">REmove Picture</button>
+                    </div>
+              </p>
+            </div>
+
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                <table class="table table-striped table-sm">
+                    <tr><td><strong>Employee Id</strong></td><td>{{ user.emp_id }}</td></tr>
+                    <tr><td><strong>Name       </strong></td><td>{{ user.name }}</td></tr>
+                    <tr><td><strong>Age        </strong></td><td>{{ user.age }}</td></tr>
+                    <!---<tr><td><strong>Gender     </strong></td><td>{{ user.gender }}</td></tr>--->
+                    <tr><td><strong>Email      </strong></td><td>{{ user.email }}</td></tr>
+                    <tr><td><strong>Work Location</strong></td><td>{{ user.work_location }}</td></tr>
+                    <tr><td><strong>City       </strong></td><td>{{ user.city }}</td></tr>
+                    <tr><td><strong>Role       </strong></td><td>{{ user.role}}</td></tr>
+                    <tr><td><strong>Field      </strong></td><td>{{ user.field}}</td></tr>
+                </table>
+            </div>
+
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                <p>
+                    <img src ="{{url_for('static', filename='images/'+user.work_pic)}}">
+                </p>
+                <p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#UploadNewWorkPictureModal">Upload Work Picture</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#RemoveWorkPictureModal">Remove Work Picture</button>
+                    </div>
+              </p>
+     
+            </div>
+    </div>
+    </div>
+</div>
+
+<!--------------------------------- UPLOAD NEW PICTURE MODAL ---------------------------------------------->
+<div class="modal fade" id="UploadNewPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Choose file to upload</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('upload_new_emp_pic')}}" method="POST" enctype="multipart/form-data">
+                                     <div class="form-group">
+                                    <label><h6>Employee ID :</h6></label>
+                                    <input type="text" id="emp_id" name="emp_id" value="{{user.emp_id}}" readonly><br>
+                                    </div> 
+
+                                    <div class="form-group">
+                                    <label><h6>Choose Picture</h6></label>
+                                         <input type="file" id="pic" name="pic"><br>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Upload Picture!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+<!--------------------------------- UPLOAD PICTURE MODAL END  --------------------------------------------->
+
+<!--------------------------------- REMOVE PICTURE MODAL BRGINS ------------------------------------------->
+<div class="modal fade" id="RemovePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure to remove profile picture for</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('remove_emp_pic')}}" method="POST" enctype="multipart/form-data">
+                                    <div class ="form-group">
+                                    <label><h6>Patient ID :</h6></label>
+                                    <input type="text" id="emp_id" name="emp_id" value="{{user.emp_id}}" readonly><br>
+                                    </div> 
+                                    <button class="btn btn-primary" type="submit">Remove Picture!</button>  
+                                </form>   
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+</div>
+<!------------------------------------- REMOVE PICTURE MODAL ENDS ------------------------------------------------->
+
+<!--------------------------------- UPLOAD NEW WORK PICTURE MODAL ---------------------------------------------->
+<div class="modal fade" id="UploadNewWorkPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Choose file to upload</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('upload_new_emp_work_pic')}}" method="POST" enctype="multipart/form-data">
+                                     <div class="form-group">
+                                    <label><h6>Employee ID :</h6></label>
+                                    <input type="text" id="emp_id" name="emp_id" value="{{user.emp_id}}" readonly><br>
+                                    </div> 
+
+                                    <div class="form-group">
+                                    <label><h6>Choose Picture</h6></label>
+                                         <input type="file" id="work_pic" name="work_pic"><br>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Upload Picture!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+<!--------------------------------- UPLOAD NEW WORK PICTURE MODAL END  --------------------------------------------->
+
+<!--------------------------------- REMOVE WORK PICTURE MODAL BRGINS ------------------------------------------->
+<div class="modal fade" id="RemoveWorkPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure to remove profile picture for</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('remove_emp_work_pic')}}" method="POST" enctype="multipart/form-data">
+                                    <div class ="form-group">
+                                    <label><h6>Employee ID :</h6></label>
+                                    <input type="text" id="emp_id" name="emp_id" value="{{user.emp_id}}" readonly><br>
+                                    </div> 
+                                    <button class="btn btn-primary" type="submit">Remove Picture!</button>  
+                                </form>   
+                                
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+</div>
+<!------------------------------------- REMOVE WORK PICTURE MODAL ENDS ------------------------------------------------->
+
+<section>
+         {% if user.role in ["Regular Physician","Junior Doctor","Senior Doctor"] %}
+    
+        <div class="row" style="background-color:#fff; text-align: center">
+            
+
+            <a href="" class="btn btn-info" data-toggle="modal" data-target="">Create/Edit Schedule</a> 
+            <a href="" class="btn btn-success" data-toggle="modal" data-target="">View Appointments</a>     
+            
+
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">View My Patients</a>     
+        
+          
+            <a href="" class="btn btn-warning" data-toggle="modal" data-target="">Open a New Case</a>
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Open an Old Case</a>
+          
+            <a href="" class="btn btn-danger" data-toggle="modal" data-target="">View My Cases</a>
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Messages</a> 
+
+            {% if user.role == "Senior Doctor" %}
+             <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Applications</a> 
+            {% endif %}
+            
+        </div>
+
+          {% elif user.role == "Health Expert" %}
+
+        <div class="row" style="background-color:#fff; text-align: center">
+            <a href="" class="btn btn-info" data-toggle="modal" data-target="">Cases</a> 
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Patients</a> 
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Doctors</a>  
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Epidemology</a> 
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Applications</a>  
+            <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Messages</a> 
+
+        </div>
+
+          {% elif user.role == "System Admin" %}
+      <div class="jumbotron" style="background-color:#ffeead; text-align: center">
+          <div class="row" >
+              <div class= "col-sm-2" style="background-color:#123; text-align: center"><br><br><br>
+                  <a href="" class="btn btn-success" data-toggle="modal" data-target="">Donations</a><br><br><br>
+              </div>
+              <div class= "col-sm-2" style="background-color:#345; text-align: center"><br><br><br>  
+                  <a href="" class="btn btn-primary" data-toggle="modal" data-target="">Funds</a><br><br><br>
+              </div>
+              <div class= "col-sm-2" style="background-color:#432; text-align: center"><br><br><br> 
+                  <a href="/transactions" class="btn btn-success">Transactions</a><br><br><br>
+              </div>
+              <div class= "col-sm-2" style="background-color:#621; text-align: center"><br><br><br>
+                  <a href="" class="btn btn-warning" data-toggle="modal" data-target="">Employees</a><br><br><br>
+              </div>
+              <div class= "col-sm-2" style="background-color:#365; text-align: center"><br><br><br>            
+                  <a href="/admin_career" class="btn btn-success">Careers</a><br><br><br>
+              </div>
+              <div class= "col-sm-2" style="background-color:#335; text-align: center" ><br><br><br>
+                  <a href="" class="btn btn-danger" data-toggle="modal" data-target="">Messages</a><br><br><br>
+              </div>
+          </div>
+      </div>
+
+          {% else %}
+
+        <div class="row" style="background-color:#fff; text-align: center"> 
+        <h1>Not authorized Yet!</h1>
+        </div>
+
+</section>
+
+          {% endif %}
+    
+
+
+
+
+
+    {% endfor %}
+
+{% endblock %}

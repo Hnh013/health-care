@@ -1,0 +1,504 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left3 {
+  width: 30%;
+}
+
+.center3 {
+    width: 40%;
+}
+
+.right3 {
+  width: 30%;
+}
+
+.left2 {
+  width: 40%;
+}
+
+.right2 {
+  width: 60%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+
+<h1 align="center"><small> Welcome {{session.username}}</small></h1>
+
+
+
+<div class="jumbotron">
+    <div class="container">
+    <div class="row">
+        {% for user in user_info %}     
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                <p>
+                    <img src ="{{url_for('static', filename='images/'+user.pic)}}" height="225" width="225" >
+                </p>
+                <p>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#UploadNewPictureModal">Upload new Picture</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#RemovePictureModal">REmove Picture</button>
+                    </div>
+                    
+                </p>
+            </div>
+
+                    
+
+
+
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                <br><br>
+                <table class="table table-striped table-sm">
+                <tr><td><strong>Patient Id</strong></td><td>{{ user.pat_id }}</td></tr>
+                <tr><td><strong>Name      </strong></td><td>{{ user.name }}</td></tr>
+                <tr><td><strong>Age       </strong></td><td>{{ user.age }}</td></tr>
+                <tr><td><strong>Gender    </strong></td><td>{{ user.gender }}</td></tr>
+                <tr><td><strong>Email     </strong></td><td>{{ user.email }}</td></tr>
+                <tr><td><strong>City      </strong></td><td>{{ user.city }}</td></tr>
+            </table>
+            </div>
+
+            <div class="col-sm-4" style="background-color:#fff; text-align: center">
+                {% if user.wallet_id == "W" %}
+                    <br><br><br><br><br><br>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#SetupWalletModal">Setup Wallet</button>
+                {% else %}
+                    <p> {% for wallet in user_wallet %}
+                        <br><br>
+                        <table class = "table table-striped table-sm">
+                        <tr class="table-primary"><td><strong>Wallet ID </strong></td><td>{{wallet.wallet_id}}</td></tr>
+                        <tr class="table-success"><td><strong>Balance </strong></td><td>{{wallet.amount}}</td></tr>
+                        </table>
+                             <br>
+                        <a href="" class="btn btn-secondary" data-toggle="modal" data-target="#UserTransactionsModal{{user.wallet_id}}">See all transactions</a> 
+                              <br><br>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#RechargeWalletModal{{user.wallet_id}}">Recharge Wallet</a>
+                            <a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="">Make a Donation</a>
+                        </div> {% endfor %}
+                    </p>
+            {% endif %}
+     
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UserTransactionsModal{{user.wallet_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Choose file to upload</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                   <table class= "table table-striped">
+                                    <tr><th>Transaction ID</th><th>Amount</th><th>Payment Type</th><th>Payment Time</th></tr>
+                                    
+                                    {% for trans in user_trans %}
+                                    {% if user.wallet_id==trans.wallet_id %}
+                                    <tr>
+                                        <td>{{trans.id}}</td><td>{{ trans.amount }}</td><td>{{ trans.payment_type }}</td><td>{{ trans.payment_time}}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %} 
+                                   </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+<div class="modal fade" id="UploadNewPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Choose file to upload</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('upload_new_pat_pic')}}" method="POST" enctype="multipart/form-data">
+                                    <label><h6>Patient ID :</h6></label>
+                                    <input type="text" id="pat_id" name="pat_id" value="{{user.pat_id}}" readonly><br>
+                                    </div> 
+
+                                    <div class="form-group">
+                                    <label><h6>Choose Picture</h6></label>
+                                         <input type="file" id="pic" name="pic"><br>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Upload Picture!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+<div class="modal fade" id="RemovePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure to remove profile picture for</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('remove_pat_pic')}}" method="POST" enctype="multipart/form-data">
+                                    <label><h6>Patient ID :</h6></label>
+                                    <input type="text" id="pat_id" name="pat_id" value="{{user.pat_id}}" readonly><br>
+                                    </div> 
+                                    <button class="btn btn-primary" type="submit">Remove Picture!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+<div class="modal fade" id="SetupWalletModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Creating Wallet for</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('setup_wallet')}}" method="POST">
+                                    <div class="form-group">
+                                    <label><h6>Patient ID :</h6></label>
+                                    <input type="text" id="pat_id" name="pat_id" value="{{user.pat_id}}" readonly><br>
+                                    </div>
+                                    
+
+                                    <div class="form-group">
+                                    <label><h6>Amount :</h6></label>
+                                    <input type="text" id="amount" name="amount"><br>
+                                    </div> 
+                                    <button class="btn btn-primary" type="submit">Create Wallet!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+<div class="modal fade" id="RechargeWalletModal{{user.wallet_id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Recharge Wallet</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                <form action="{{ url_for('recharge_wallet')}}" method="POST">
+                                    <div class="form-group">
+                                    <label><h6>Patient ID :</h6></label>
+                                    <input type="text" id="pat_id" name="pat_id" value="{{user.pat_id}}" readonly><br>
+                                    </div>
+                                    <div class="form-group">
+                                    <label><h6>Wallett ID :</h6></label>
+                                    <input type="text" id="wallet_id" name="wallet_id" value="{{user.wallet_id}}" readonly><br>
+                                    </div>
+                                    <div class="form-group">
+                                    <label><h6>Amount :</h6></label>
+                                    <input type="text" id="amount" name="amount"><br>
+                                    </div> 
+                                    <button class="btn btn-primary" type="submit">Reecharge Wallet!</button>  
+                                </form>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+<div class = "jumbotron" style="background-color:#aaa">
+     <h1> PATIENT AILMENT HISTORY</h1>  
+    <p align="center"><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#AddNewDiseaseModal">Add new aiment</a>
+    </p>
+
+    <div class="row" style="background-color:#fff; text-align: center">
+     
+        <table align="center" class="table table-light table-sm">
+            <tr>
+                <th><strong>Ailment ID</strong></th><th><strong>Ailment</strong></th><th><strong>Status</strong></th><th></th><th></th>
+            </tr>
+                {% for hist in user_hist %}
+                    
+                <tr><td>{{ hist.id }}</td>
+                    <td>{{ hist.ailment }}</td><td>{{ hist.status }}</td>
+                    <td><a href="/edit_disease{{hist.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditDiseaseModal{{hist.id}}">Edit ailment</a>
+                            </td>
+                    <td><a href="/delete_disease/{{hist.id}}" class="btn btn-danger btn-sm" onclick = "return confirm('Are You Sure to Delete?')">Delete Ailment</a>
+                            </td>
+                </tr>
+               
+      
+         <div class="modal fade" id="EditDiseaseModal{{hist.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Ailment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('edit_disease')}}" method="POST">
+                            <div class="form-group">
+                                <label><h6>Ailment ID :</h6></label>
+                                <input type="text" name="id" value="{{hist.id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Patient ID :</h6></label>
+                                <input type="text"  name="pat_id" value="{{hist.pat_id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Ailment</h6></label>
+                                <input type="text" name="ailment" value="{{hist.ailment}}"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Status</h6></label>
+                                <input type="text" name="status" value="{{hist.status}}"><br>
+                            </div>
+                                <button class="btn btn-primary" type="submit">Add Disease!</button>  
+                        </form>   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+   {% endfor %}
+
+
+        <div class="modal fade" id="AddNewDiseaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New ailment</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_new_disease')}}" method="POST">
+                            <div class="form-group">
+                                <label><h6>Patient ID :</h6></label>
+                                <input type="text" id="pat_id" name="pat_id" value="{{user.pat_id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Ailment</h6></label>
+                                <input type="text" id="ailment" name="ailment"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Status</h6></label>
+                                <input type="text" id="status" name="status"><br>
+                            </div>
+                                <button class="btn btn-primary" type="submit">Add Disease!</button>  
+                        </form>   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+             
+            
+        </table>    
+    </div>
+</div>
+
+
+
+<div class = "jumbotron" style="background-color:#fff">
+
+
+    <h1> PATIENT PRESCRIPTION HISTORY</h1>  
+    <p align="center"><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="#PrescriptionModal">Add New Medicine</a>
+    </p>
+
+        <div class="row" style="background-color:#aaa; text-align: center">
+
+            <table align="center" class="table table-striped table-sm">
+                <tr>
+                    <th><strong>Prescription ID</strong></th><th><strong>Medicine</strong></th><th><strong>Dosage/Day</strong></th><th><strong>Status</strong></th><th></th><th></th>
+                </tr>
+
+
+                {% for medi in user_medi %}
+
+                <tr>
+                    <td>{{ medi.id }}</td><td>{{ medi.medi_name }}</td><td>{{ medi.medi_dose }}</td><td>{{ medi.status }}</td>
+                    <td><a href="/edit_prescription{{medi.id}}" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#EditPrescriptionModal{{medi.id}}">Edit Prescription</a>
+                            </td>
+                    <td><a href="/delete_prescription/{{medi.id}}" class="btn btn-danger btn-sm" onclick = "return confirm('Are You Sure to Delete Prescription?')">Delete Prescription</a>
+                            </td>
+                </tr> 
+
+
+            
+            <div class="modal fade" id="EditPrescriptionModal{{medi.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Prescription</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('edit_prescription')}}" method="POST">
+                            <div class="form-group">
+                                <label><h6>Prescription ID :</h6></label>
+                                <input type="text" name="id" value="{{medi.id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Patient ID :</h6></label>
+                                <input type="text"  name="pat_id" value="{{medi.pat_id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Medicine Name</h6></label>
+                                <input type="text" name="medi_name" value="{{medi.medi_name}}"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Dosage/Day</h6></label>
+                                <input type="text" name="medi_dose" value="{{medi.medi_dose}}"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Status</h6></label>
+                                <input type="text" name="status" value="{{medi.status}}"><br>
+                            </div>
+                                <button class="btn btn-primary" type="submit">Confirm Prescription!</button>  
+                        </form>   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+                {% endfor %}
+                
+        <div class="modal fade" id="PrescriptionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Prescription</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('add_new_prescription')}}" method="POST">
+                        
+                            <div class="form-group">
+                                <label><h6>Patient ID :</h6></label>
+                                <input type="text"  name="pat_id" value="{{user.pat_id}}" readonly><br>
+                            </div> 
+                            <div class="form-group">
+                                <label><h6>Medicine Name</h6></label>
+                                <input type="text" name="medi_name"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Dosage/Day</h6></label>
+                                <input type="text" name="medi_dose"><br>
+                            </div>
+                            <div class="form-group">
+                                <label><h6>Status</h6></label>
+                                <input type="text" name="status"><br>
+                            </div>
+                                <button class="btn btn-primary" type="submit">Add Prescription!</button>  
+                        </form>   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+            </table>
+        </div>
+    </div>
+
+
+<div class= "jumbotron">
+      <p align="right"><a href="" class="btn btn-success btn-sm" data-toggle="modal" data-target="">Book Appointment</a>
+          
+</div>
+    
+{% endfor %}
+   
+{% endblock %}

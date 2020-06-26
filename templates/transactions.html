@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+
+<div class="jumbotron">
+  <a href="/emp_dashboard" class="btn btn-primary"><< Go to Dashboard</a><br><br>
+              
+    <hr>
+</div>
+<section><div class="container">
+<div class="jumbotron">
+<table class= "table table-striped">
+  <tr>
+    <th>Transaction ID</th>
+    <th>Wallet ID</th>
+    <th>Amount</th>
+    <th>Name </th>
+    <th>Type of Payment</th>
+    <th>Time of Payment</th>
+    
+    
+    </tr>
+
+{% for row in trans %}
+  
+  <tr>
+  	<td>{{ row.id }}</td>
+    <td>{{ row.wallet_id }}</td>
+    <td>{{ row.amount }}</td>
+    <td>{{ row.name }}</td>
+    <td>{{ row.payment_type }}</td>
+    <td>{{ row.payment_time }}</td>
+    
+</tr>
+{% endfor %}
+</table>
+
+</div>
+</div></section>
+
+{% endblock %}

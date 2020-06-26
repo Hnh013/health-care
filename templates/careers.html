@@ -1,0 +1,135 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+<div clas="jumbotron"> <p alogn="center"><h2>DISCLAIMER</h2></p>
+	<p><h4> Currently we are open to Medical professionals and Experts in NCT Delhi only and with their own accomodations (Based in Delhi too) . We will try extending our services in more cities as soon as possible ... </h4></p>
+</div>
+<section>
+
+  <table class="table table-striped">
+      <tr>
+          <th>Job Id</th>
+          <th>Role</th>
+          <th>Field</th>
+          <th>Min. Experience</th><th>No. of Openings</th>
+          <th>Description</th>
+          <th>Posted On</th>
+          <th></th>
+      </tr>
+
+      {% for row in jobs %}
+      <div>
+      <tr>
+      <td>{{row.id}}</td>
+      <td>{{row.role}}</td>
+      <td>{{row.field}}</td>
+      <td>{{row.min_exp}}</td><td>{{row.openings}}</td>
+      <td>{{row.descrip}}</td><td>{{row.date_posted}}</td>
+      <td>
+      <a class="btn btn-outline-info" href="/apply_job/{{row.id}}" data-toggle="modal" data-target="#ApplyJobModal{{row.id}}">Apply</a>
+      </td>
+      </tr>
+
+<!----------------------------- APPLY FOR JOB MODAL -------------------------------------->
+
+
+<div class="modal fade" id="ApplyJobModal{{row.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Details To Apply</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url_for('apply_job')}}" enctype="multipart/form-data" method="POST">
+              <div class="form-group"> 
+              <label><h6>Job ID</h6></label>
+              <input type="text" id="job_id" name="job_id" value="{{row.id}}" readonly><br>
+              </div>
+              <div class="form-group"> 
+              <label>Name</label>
+              <input type="text" id="name" name="name" placeholder="Write full name"><br>
+              </div>
+              <div class="form-group"> 
+              <label>Age</label>
+              <input type="text" id="age" name="age" placeholder="Age in years"><br>
+              </div>
+              <div class="form-group"> 
+              <label> Gender</label>
+              <input type="text" id="gender" name="gender" placeholder="Gender"><br>
+              </div>
+              <div class="form-group"> 
+              <label> Email</label>
+              <input type="text" id="email" name="email" placeholder="email"><br>
+              </div>
+              <div class="form-group"> 
+              <label> Username</label>
+              <input type="text" id="username" name="username" placeholder="Choose username"><br>
+              </div>
+              <div class="form-group"> 
+              <label> Password</label>
+              <input type="password" id="password" name="password"><br>
+              </div>
+              <div class="form-group"> 
+              <label><h6>Role</h6></label>
+              <input type="text" id="role" name="role"value="{{row.role}}" readonly><br>
+              </div>
+              <div class="form-group"> 
+              <label> Field</label>
+              <input type="text" id="field" name="field" value="{{row.field}}" readonly><br>
+              </div>
+              <div class="form-group"> 
+              <label> Field Experience:</label>
+              <input type="text" id="exp" name="exp" placeholder="field exp in years"><br>
+              </div>
+              <div class="form-group"> 
+              <label>Work Location:</label><br>
+              <input type="text" id="work_location" name="work_location" placeholder="Metro cities only"><br>
+              </div>
+              <div class="form-group"> 
+              <label>City</label><br>
+              <input type="text" id="city" name="city" value="Delhi" readonly><br>
+              </div>
+              <div class="form-group"> 
+              <label>Alma mater</label><br>
+               <input type="text" id="alm_mat" name="alm_mat" placeholder="where do you studied?">
+               </div>
+
+              <div class="form-group">
+                <label>Secret Question</label>
+                <select class="custom-select custom-select-sm" name="sec_ques">
+                  <option selected>Open this select menu</option>
+                  <option value="Favorite Book">Favorite Book ?</option>
+                  <option value="Favorite Artist">Favorite Artist ?</option>
+                </select>
+              </div>
+              <div class="form-group"> 
+              <label> Secret Answer</label>
+              <input type="text" id="sec_ans" name="sec_ans"><br>
+              </div>
+                             
+                <button class="btn btn-primary" type="submit">Post Job Application!</button>  
+             </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+<!----------------------------- APPLY FOR JOB MODAL ENDS ---------------------------------->
+      </div>
+      {% endfor %}
+      </table>
+
+</section>
+
+
+
+
+{% endblock %}

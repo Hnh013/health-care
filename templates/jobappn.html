@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+
+<section><div class="container">
+<div class="jumbotron">
+<table class= "table table-striped">
+{% for row in appns %}
+  <tr>
+    <th>ID</th>
+    <th>Job ID</th>
+    <th>Applicant Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Field</th>
+    <th>Work Location</th>
+    <th>City</th>
+    <th>Alma Mater</th>
+    <th></th>
+    <th></th>
+    </tr>
+  <tr>
+  	<td>{{ row.id }}</td>
+    <td>{{ row.job_id }}</td>
+    <td>{{ row.name }}</td>
+    <td>{{ row.age }}</td>
+    <td>{{ row.gender }}</td>
+    <td>{{ row.email }}</td>
+    <td>{{ row.role }}</td>
+    <td>{{ row.field }}</td>
+    <td>{{ row.work_location }}</td>
+    <td>{{ row.city }}</td>
+    <td>{{ row.alm_mat }}</td>
+    <td><a href="#" class="btn btn-warning btn-sm">{{ row.approval_1 }}</a></td>
+    <td><a href="#" class="btn btn-secondary btn-sm">{{ row.approval_2}}</a></td>
+    </tr>
+{% endfor %}
+</table>
+
+</div>
+</div></section>
+
+{% endblock %}

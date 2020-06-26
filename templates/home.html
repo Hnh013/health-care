@@ -1,0 +1,139 @@
+
+{% extends 'layout.html' %}
+
+
+{% block body %}
+
+<!--------C a r o u s e l B e g i n S---------->
+{% include 'includes/_corousel.html' %}
+<!--------C a r o u s a l E n d S ------------>
+<script type="text/javascript">
+   
+    // when page is ready
+    $(document).ready(function() {
+         // on form submit
+        $("#form").on('submit', function() {
+            // to each unchecked checkbox
+            $(this).find('input[type=checkbox]:not(:checked)').prop('checked', true).val(0);
+        })
+    })
+</script>
+
+<SECTION>
+	
+<div class="container">
+	<div class = "row" style="background-image: url(https://images.pexels.com/photos/305565/pexels-photo-305565.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500)">
+		<div class="col-sm-6"><h1>pojkgojgposjg</h1><P>Headpowkdna;nmaesfmes;lms;fms;ofm;lmf;elmfe;lfms;efmse;lkfmse;lkfmes;lfm;fmde;lfms;lfmse;lfmes;grkgrpokjgrepogkergokrgf[pkg</P>
+		</div>
+		<div class="col-sm-6"><h1>Hcloj</h1><p>qwfESVAVADFVGFVADe;kfmew;lfmnwelkfmelfjewlkfnwelifjewfklwefklewflkwnflwkefewlkfnwelkfwelkfnwelkfjweflkwflkewlkfewlgnflFGVADGADFGADFG</p>
+		</div>
+	</div>
+
+</div>
+
+</SECTION>
+<section>
+	<div class= "jumbotron">
+	<div class="login">
+	<h1>Predict Disease</h1>
+      
+    <form action="{{ url_for('predict')}}"method="POST" onsubmit="">
+    	<table class="table table-striped">
+    		<tr>
+                <td>S1</td>
+                <td><input type='hidden' value='0' name='S1'><input type="checkbox" name="S1" value="1" /></td>
+         
+                <td>S2</td>
+                <td><input type='hidden' value='0' name='S2'><input type="checkbox" name="S2" value="1" /></td>
+
+                <td>S3</td>
+                <td><input type='hidden' value='0' name='S3'><input type="checkbox" name="S3" value="1" /></td>
+                  
+                <td>S4</td>
+                <td><input type='hidden' value='0' name='S4'><input type="checkbox" name="S4" value="1" /></td>
+         
+                <td>S5</td>
+    	        <td><input type='hidden' value='0' name='S5'><input type="checkbox" name="S5" value="1" /></td>
+
+                <td>S6</td>
+                <td><input type='hidden' value='0' name='S6'><input type="checkbox" name="S6" value="1" /></td>
+            </tr>
+            <tr>
+                <td>S7</td>
+                <td><input type='hidden' value='0' name='S7'><input type="checkbox" name="S7" value="1" /></td>
+                
+                <td>S8</td>
+                <td><input type='hidden' value='0' name='S8'><input type="checkbox" name="S8" value="1" />
+      
+                <td>S9</td>
+                <td><input type='hidden' value='0' name='S9'><input type="checkbox" name="S9" value="1" /></td>
+          
+                <td>S10</td>
+                <td><input type='hidden' value='0' name='S10'><input type="checkbox" name="S10" value="1" /></td>
+         
+                <td>S11</td>
+                <td><input type='hidden' value='0' name='S11'><input type="checkbox" name="S11" value="1" /></td>
+         
+                <td>S12</td>
+                <td><input type='hidden' value='0' name='S12'><input type="checkbox" name="S12" value="1" /></td>
+            </tr>
+            <tr>
+                <td>S13</td>
+                <td><input type='hidden' value='0' name='S13'><input type="checkbox" name="S13" value="1" /></td>
+
+                <td>S14</td>
+                <td><input type='hidden' value='0' name='S14'><input type="checkbox" name="S14" value="1" /></td> 
+         
+                <td>S15</td>
+                <td><input type='hidden' value='0' name='S15'><input type="checkbox" name="S15" value="1" /></td>
+                
+                <td>S16</td>
+                <td><input type='hidden' value='0' name='S16'><input type="checkbox" name="S16" value="1" /></td>
+                
+                <td>S17</td>
+                <td><input type='hidden' value='0' name='S17'><input type="checkbox" name="S17" value="1" /></td>
+         
+                <td>S18</td>
+                <td><input type='hidden' value='0' name='S18'><input type="checkbox" name="S18" value="1" /></td>
+            </tr>
+         <tr>
+         S19
+    	 <input type='hidden' value='0' name='S19'>
+         <input type="checkbox" name="S19" value="1" />
+         S20
+         <input type='hidden' value='0' name='S20'>
+         <input type="checkbox" name="S20" value="1" /> 
+         S21
+    	 <input type='hidden' value='0' name='S21'>
+         <input type="checkbox" name="S21" value="1" />
+         S22
+         <input type='hidden' value='0' name='S22'>
+         <input type="checkbox" name="S22" value="1" />
+         S23
+    	 <input type='hidden' value='0' name='S23'>
+         <input type="checkbox" name="S23" value="1" />
+         S24
+    	 <input type='hidden' value='0' name='S24'>
+         <input type="checkbox" name="S24" value="1" /><br></tr>
+         <tr>
+         S25
+         <input type='hidden' value='0' name='S25'>
+         <input type="checkbox" name="S25" value="1" />
+         S26
+         <input type='hidden' value='0' name='S26'>
+         <input type="checkbox" name="S26" value="1" />
+
+      
+      <br></tr>
+  </table>
+
+        <button type="submit" type="button" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+   <br>
+   <br>
+   {{ prediction_text }}
+  </div>
+ </div>
+	</section>
+{% endblock %}

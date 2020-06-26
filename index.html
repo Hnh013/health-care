@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+  float: left;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left3 {
+  width: 30%;
+}
+
+.center3 {
+    width: 40%;
+}
+
+.right3 {
+  width: 30%;
+}
+
+.left2 {
+  width: 40%;
+}
+
+.right2 {
+  width: 60%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+</head>
+<body>
+
+
+<div class="row">
+	<div class="column left3"></div>
+	<div class="column center3"></div>
+	<div class="column right3"></div>
+
+	
+</div>
+<div class="row">
+	<div class="column left3"></div>
+	<div class="column right2"></div>
+	
+</div>
+</body>
+</html>
